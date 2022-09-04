@@ -16,10 +16,17 @@
     </div>
     <br>
 </body>
-    <form class="form-inline" action="+" method="post">
+    <form class="form-inline" th:action="@{/addminutes}">
         <div class="form-group">
-            <label for="minutes">Massage minutes:</label>
-            <input type="minutes" class="form-control" id="minutes">
+            <label for="minutesAdd">Plusz percek:</label>
+            <input type="number" class="form-control" id="minutesAdd" th:name="minutesAdd">
+        </div>
+        <button type="submit" class="btn">Submit</button>
+    </form>
+    <form class="form-inline" th:action="@{/removeminutes}">
+        <div class="form-group">
+            <label for="minutesRemove">Masszíroztam:</label>
+            <input type="number" class="form-control" id="minutesRemove" th:name="minutesRemove">
         </div>
         <button type="submit" class="btn">Submit</button>
     </form>

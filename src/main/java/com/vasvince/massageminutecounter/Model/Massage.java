@@ -27,6 +27,12 @@ public class Massage {
         this.minutes = minutes;
         this.timeStamp = timeStamp;
     }
+    public Massage(int remainingMinutes, String action, int minutes, LocalDateTime timeStamp) {
+        this.remainingMinutes = remainingMinutes;
+        this.action = action;
+        this.minutes = minutes;
+        this.timeStamp = timeStamp;
+    }
 
     public int getRemainingMinutes() {
         return remainingMinutes;
