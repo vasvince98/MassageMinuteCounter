@@ -1,0 +1,1 @@
+insert ignore into Massage (id, remaining_minutes, minutes, action) VALUES (1, 60000, 0, 'START')

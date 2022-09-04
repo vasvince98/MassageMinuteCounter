@@ -12,11 +12,11 @@
 </head>
 <body class="mainText">
     <div>
-        <maincounter>Remaining massage minutes: 70.000 min</maincounter>
+        <maincounter th:text="'Remaining massage minutes: ' + ${minutes.getRemainingMinutes()}">Remaining massage minutes: 70.000 min</maincounter>
     </div>
     <br>
 </body>
-    <form class="form-inline" action="http://localhost:8080/main" method="post">
+    <form class="form-inline" action="+" method="post">
         <div class="form-group">
             <label for="minutes">Massage minutes:</label>
             <input type="minutes" class="form-control" id="minutes">

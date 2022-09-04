@@ -1,4 +1,6 @@
 package com.vasvince.massageminutecounter.Interface;
 
-public class IMassageService {
+public interface IMassageService {
+    int addMinutes(int minutes);
+    int removeMinutes(int minutes);
 }
