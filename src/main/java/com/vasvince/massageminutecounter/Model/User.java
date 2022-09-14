@@ -13,6 +13,7 @@ public class User {
     private String vezetekNev;
     private String keresztNev;
     private String email;
+    private boolean isAuthorized;
 
     public User() {}
 
@@ -20,6 +21,7 @@ public class User {
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.email = email;
+        this.isAuthorized = false;
     }
 
     public int getId() {
@@ -54,12 +56,22 @@ public class User {
         this.email = email;
     }
 
+    public boolean isAuthorized() {
+        return isAuthorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        isAuthorized = authorized;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "vezetekNev='" + vezetekNev + '\'' +
+                "id=" + id +
+                ", vezetekNev='" + vezetekNev + '\'' +
                 ", keresztNev='" + keresztNev + '\'' +
                 ", email='" + email + '\'' +
+                ", isAuthorized=" + isAuthorized +
                 '}';
     }
 }

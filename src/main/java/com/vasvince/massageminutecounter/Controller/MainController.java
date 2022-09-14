@@ -45,4 +45,9 @@ public class MainController {
         m.addAttribute("minutes", massageRepository.findFirstByOrderByIdDesc());
         return "index";
     }
+
+    @RequestMapping("/signup")
+    public String signUp() {
+        return "signup";
+    }
 }
