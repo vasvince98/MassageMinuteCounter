@@ -25,7 +25,8 @@
 
                                 <div class="form-outline form-white mb-4">
                                     <input type="text" id="typeUserName" name="typeUserName" class="file-input form-control form-control-lg" />
-                                    <label class="form-label" for="typeUserName">User Name</label>
+                                    <label class="form-label" for="typeUserName">User Name</label> <br>
+                                    <label th:text="${usernameTaken.getMessage()}" class="form-label error-message" for="typeUserName">Error message</label>
                                 </div>
 
                                 <div class="form-outline form-white mb-4">

@@ -2,10 +2,22 @@ package com.vasvince.massageminutecounter.Service;
 
 import com.vasvince.massageminutecounter.Interface.ISignUpService;
 import com.vasvince.massageminutecounter.Model.User;
+import com.vasvince.massageminutecounter.Repository.MassageRepository;
+import com.vasvince.massageminutecounter.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SignUpService implements ISignUpService {
+
+    MassageRepository massageRepository;
+    UserRepository userRepository;
+
+    @Autowired
+    public SignUpService(MassageRepository massageRepository, UserRepository userRepository) {
+        this.massageRepository = massageRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean checkEmailExistence(String email) {
@@ -24,7 +36,7 @@ public class SignUpService implements ISignUpService {
 
     @Override
     public boolean userNameIsExist(String userName) {
-        return false;
+        return userRepository.existsByUsername(userName);
     }
 
     @Override

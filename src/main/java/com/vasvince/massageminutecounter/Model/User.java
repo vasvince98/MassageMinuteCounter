@@ -10,6 +10,7 @@ public class User {
 
     @Id
     private int id;
+    private String username;
     private String vezetekNev;
     private String keresztNev;
     private String email;
@@ -17,11 +18,20 @@ public class User {
 
     public User() {}
 
-    public User(String vezetekNev, String keresztNev, String email) {
+    public User(String username, String vezetekNev, String keresztNev, String email) {
+        this.username = username;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.email = email;
         this.isAuthorized = false;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getId() {
@@ -68,6 +78,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", vezetekNev='" + vezetekNev + '\'' +
                 ", keresztNev='" + keresztNev + '\'' +
                 ", email='" + email + '\'' +
