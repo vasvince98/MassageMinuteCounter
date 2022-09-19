@@ -34,25 +34,45 @@ public class MainRestController {
                                      @RequestParam(name = "typePasswordX") String firstPassword,
                                      @RequestParam(name = "typePasswordY") String secondPassword) {
 
+        boolean successfulLogin = true;
+
         ModelAndView mav = new ModelAndView();
         mav.setViewName("signup");
         Response responseMessage = new Response();
 
 
         if (signUpService.userNameIsExist(userName)) {
-            responseMessage.setMessage("Username is already taken. Please choose another one!");
-            mav.addObject("usernameTaken", responseMessage);
+            responseMessage.setUsername("Username is already taken. Please choose another one!");
+            successfulLogin = false;
         } else {
-            responseMessage.setMessage("");
-            mav.addObject("usernameTaken", responseMessage);
+            responseMessage.setUsername("");
         }
 
-        System.out.println("First name: " + firstName);
-        System.out.println("Last name: " + lastName);
+
         System.out.println("First email: " + firstEmail);
         System.out.println("Second email: " + secondEmail);
+
+        if (signUpService.emailCheck(firstEmail, secondEmail)) {
+            if (signUpService.isEmailExist(firstEmail)) {
+                responseMessage.setEmail("E-mail already exists. Please choose another one!");
+            } else {
+                responseMessage.setEmail("");
+            }
+        } else {
+            responseMessage.setEmail("E-mails are not the same! Please check them!");
+            successfulLogin = false;
+        }
+
         System.out.println("First password: " + firstPassword);
         System.out.println("Second password: " + secondPassword);
+
+        mav.addObject("responseMessage", responseMessage);
+
+        if (successfulLogin) {
+            mav.setViewName("redirect:/main");
+        } else {
+            mav.setViewName("signup");
+        }
         return mav;
     }
 }

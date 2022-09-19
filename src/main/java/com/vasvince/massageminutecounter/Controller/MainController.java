@@ -2,12 +2,15 @@ package com.vasvince.massageminutecounter.Controller;
 
 import com.vasvince.massageminutecounter.Interface.IMassageService;
 import com.vasvince.massageminutecounter.Model.Minute;
+import com.vasvince.massageminutecounter.Model.Response;
 import com.vasvince.massageminutecounter.Repository.MassageRepository;
+import org.h2.engine.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -29,7 +32,7 @@ public class MainController {
 
     @RequestMapping ("/main")
     public String main(Model m) {
-        m.addAttribute("minutes", massageRepository.findByaction("START"));
+        m.addAttribute("minutes", massageRepository.findFirstByOrderByIdDesc());
         return "index";
     }
 
@@ -48,8 +51,12 @@ public class MainController {
     }
 
     @RequestMapping("/signup")
-    public String signUp() {
-        return "signup";
+    public ModelAndView signUp() {
+        Response responseMessage = new Response();
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("signup");
+        mav.addObject("responseMessage", responseMessage);
+        return mav;
     }
 
 

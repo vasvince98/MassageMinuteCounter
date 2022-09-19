@@ -20,13 +20,13 @@ public class SignUpService implements ISignUpService {
     }
 
     @Override
-    public boolean checkEmailExistence(String email) {
-        return false;
+    public boolean emailCheck(String firstEmail, String secondEmail) {
+        return firstEmail.equals(secondEmail);
     }
 
     @Override
-    public boolean checkEmailIsSame(String email) {
-        return false;
+    public boolean isEmailExist(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override
