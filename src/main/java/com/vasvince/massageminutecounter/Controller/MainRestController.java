@@ -2,6 +2,7 @@ package com.vasvince.massageminutecounter.Controller;
 
 import com.vasvince.massageminutecounter.Interface.ISignUpService;
 import com.vasvince.massageminutecounter.Model.Response;
+import com.vasvince.massageminutecounter.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,9 +67,19 @@ public class MainRestController {
         System.out.println("First password: " + firstPassword);
         System.out.println("Second password: " + secondPassword);
 
+        if (signUpService.checkPasswordIsSame(firstPassword, secondPassword)) {
+            responseMessage.setPassWord("");
+        } else {
+            responseMessage.setPassWord("Passwords must be the same! Please check them!");
+            successfulLogin = false;
+        }
+
+
+
         mav.addObject("responseMessage", responseMessage);
 
         if (successfulLogin) {
+            signUpService.createNewUser(new User(userName, lastName, firstName, firstEmail, firstPassword));
             mav.setViewName("redirect:/main");
         } else {
             mav.setViewName("signup");

@@ -30,8 +30,8 @@ public class SignUpService implements ISignUpService {
     }
 
     @Override
-    public boolean checkPasswordIsSame(String password) {
-        return false;
+    public boolean checkPasswordIsSame(String firstPassword, String secondPassword) {
+        return firstPassword.equals(secondPassword);
     }
 
     @Override
@@ -40,17 +40,19 @@ public class SignUpService implements ISignUpService {
     }
 
     @Override
-    public String createNewUser(User user) {
-        return null;
+    public void createNewUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
-    public String deleteUser(User user) {
-        return null;
+    public String deleteUserById(int id) {
+        userRepository.deleteById(id);
+        return "User deleted with ID: " + id;
     }
 
     @Override
-    public String deleteAllUser(User user) {
-        return null;
+    public String deleteAllUser() {
+        userRepository.deleteAll();
+        return "All users deleted!";
     }
 }

@@ -14,15 +14,17 @@ public class User {
     private String vezetekNev;
     private String keresztNev;
     private String email;
+    private String password;
     private boolean isAuthorized;
 
     public User() {}
 
-    public User(String username, String vezetekNev, String keresztNev, String email) {
+    public User(String username, String vezetekNev, String keresztNev, String email, String password) {
         this.username = username;
         this.vezetekNev = vezetekNev;
         this.keresztNev = keresztNev;
         this.email = email;
+        this.password = password;
         this.isAuthorized = false;
     }
 
@@ -32,6 +34,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getId() {
@@ -82,6 +92,7 @@ public class User {
                 ", vezetekNev='" + vezetekNev + '\'' +
                 ", keresztNev='" + keresztNev + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", isAuthorized=" + isAuthorized +
                 '}';
     }
