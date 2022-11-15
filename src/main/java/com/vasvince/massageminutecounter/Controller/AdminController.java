@@ -1,5 +1,6 @@
 package com.vasvince.massageminutecounter.Controller;
 
+
 import com.vasvince.massageminutecounter.Exceptions.UserNotFoundException;
 import com.vasvince.massageminutecounter.Interface.ISignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-    ISignUpService signUpService;
+    private final ISignUpService signUpService;
 
     @Autowired
     public AdminController(ISignUpService signUpService) {
@@ -25,6 +26,10 @@ public class AdminController {
         } catch (Exception e) {
             throw new UserNotFoundException("User not found with provided ID!");
         }
+    }
 
+    @GetMapping("/getallusers")
+    public String getAllUsers() {
+        return signUpService.getAllUsers();
     }
 }

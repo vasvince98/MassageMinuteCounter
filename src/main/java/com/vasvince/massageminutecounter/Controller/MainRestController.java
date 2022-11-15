@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.HashMap;
 
 @RestController
 public class MainRestController {
@@ -24,7 +21,7 @@ public class MainRestController {
         this.signUpService = signUpService;
     }
 
-    @RequestMapping("/submit")
+    @RequestMapping("/submitsignup")
     @ResponseBody
     public ModelAndView submitSignUp(Model m,
                                      @RequestParam(name = "typeUserName") String userName,
@@ -35,24 +32,25 @@ public class MainRestController {
                                      @RequestParam(name = "typePasswordX") String firstPassword,
                                      @RequestParam(name = "typePasswordY") String secondPassword) {
 
-        boolean successfulLogin = true;
 
+        //todo: business logic -> service
+        boolean successfulSignup = true;
+
+        //Model and view init
         ModelAndView mav = new ModelAndView();
         mav.setViewName("signup");
         Response responseMessage = new Response();
 
 
+        //Username check
         if (signUpService.userNameIsExist(userName)) {
             responseMessage.setUsername("Username is already taken. Please choose another one!");
-            successfulLogin = false;
+            successfulSignup = false;
         } else {
             responseMessage.setUsername("");
         }
 
-
-        System.out.println("First email: " + firstEmail);
-        System.out.println("Second email: " + secondEmail);
-
+        //Email check
         if (signUpService.emailCheck(firstEmail, secondEmail)) {
             if (signUpService.isEmailExist(firstEmail)) {
                 responseMessage.setEmail("E-mail already exists. Please choose another one!");
@@ -61,29 +59,60 @@ public class MainRestController {
             }
         } else {
             responseMessage.setEmail("E-mails are not the same! Please check them!");
-            successfulLogin = false;
+            successfulSignup = false;
         }
 
-        System.out.println("First password: " + firstPassword);
-        System.out.println("Second password: " + secondPassword);
 
+        //Password check
         if (signUpService.checkPasswordIsSame(firstPassword, secondPassword)) {
             responseMessage.setPassWord("");
         } else {
             responseMessage.setPassWord("Passwords must be the same! Please check them!");
-            successfulLogin = false;
+            successfulSignup = false;
         }
 
 
 
         mav.addObject("responseMessage", responseMessage);
 
-        if (successfulLogin) {
+        if (successfulSignup) {
             signUpService.createNewUser(new User(userName, lastName, firstName, firstEmail, firstPassword));
-            mav.setViewName("redirect:/main");
+            mav.setViewName("redirect:/login");
         } else {
             mav.setViewName("signup");
         }
         return mav;
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public ModelAndView submitLogin(@RequestParam(name = "loginEmail", required = false) String email,
+                                    @RequestParam(name = "loginPassword", required = false) String password) {
+
+        //todo: business logic -> service
+        //Model and view init
+        ModelAndView mav = new ModelAndView();
+        Response responseMessage = new Response();
+
+        //Email check
+        if (!signUpService.isEmailExist(email) && email != null) {
+            responseMessage.setEmail("E-mail not exists yet! Please sign up!");
+        } else {
+            responseMessage.setEmail("");
+        }
+
+
+        if (isLoginSuccessful()) {
+            mav.setViewName("index");
+        } else {
+            mav.addObject("responseMessage", responseMessage);
+            mav.setViewName("/login");
+        }
+
+        return mav;
+    }
+
+    private boolean isLoginSuccessful() {
+        return false;
     }
 }

@@ -17,17 +17,12 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MainController {
 
     private final IMassageService massageService;
-    private MassageRepository massageRepository;
+    private final MassageRepository massageRepository;
 
     @Autowired
     public MainController(IMassageService massageService, MassageRepository massageRepository) {
         this.massageService = massageService;
         this.massageRepository = massageRepository;
-    }
-
-    @RequestMapping("/")
-    public String login(Model m) {
-        return "login";
     }
 
     @RequestMapping ("/main")
