@@ -3,6 +3,10 @@ package com.vasvince.massageminutecounter.Controller;
 import com.vasvince.massageminutecounter.Interface.ISignUpService;
 import com.vasvince.massageminutecounter.Model.Response;
 import com.vasvince.massageminutecounter.Model.User;
+import com.vasvince.massageminutecounter.Repository.MassageRepository;
+import com.vasvince.massageminutecounter.Repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +15,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @RestController
 public class MainRestController {
 
-    ISignUpService signUpService;
+    private final ISignUpService signUpService;
+    private final UserRepository userRepository;
+    private final MassageRepository massageRepository;
+
+    Logger logger = LoggerFactory.getLogger(MainRestController.class);
+
 
     @Autowired
-    public MainRestController(ISignUpService signUpService) {
+    public MainRestController(ISignUpService signUpService,
+                              UserRepository userRepository,
+                              MassageRepository massageRepository) {
         this.signUpService = signUpService;
+        this.userRepository = userRepository;
+        this.massageRepository = massageRepository;
     }
 
     @RequestMapping("/submitsignup")
@@ -102,8 +116,9 @@ public class MainRestController {
         }
 
 
-        if (isLoginSuccessful()) {
-            mav.setViewName("index");
+        if (isLoginSuccessful(email, password)) {
+            mav.addObject("minutes", massageRepository.findFirstByOrderByIdDesc());
+            mav.setViewName("/index");
         } else {
             mav.addObject("responseMessage", responseMessage);
             mav.setViewName("/login");
@@ -112,7 +127,15 @@ public class MainRestController {
         return mav;
     }
 
-    private boolean isLoginSuccessful() {
-        return false;
+    private boolean isLoginSuccessful(String email, String password) {
+        User currentUser = userRepository.findByEmail(email);
+        if (!currentUser.getPassword().equals(password)) {
+            logger.error("Wrong email and password pair!");
+            return false;
+        } else {
+            logger.info("Successful authentication!");
+            return true;
+        }
+
     }
 }
